@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: eureka-provider
+  profiles:
+    active: localtest
+
+#本地开发环境
+---
+spring:
+  profiles: localtest
+
+server:
+  port: 9001
+
+#日志配置
+logging:
+  path: D:/logs/${spring.application.name}/
+ 
+#注册中心地址
+configurationCenter:
+  host: http://localhost:9871/eureka/
+#服务注册与发现
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+  client:
+    registryFetchIntervalSeconds: 5
+    serviceUrl:
+      defaultZone: ${configurationCenter.host}
+
+#rest服务使用feign解析，如果有多个时用英文逗号分隔
+feign:
+  basePackages: com.eureka.api.service
+  hystrix:
+      enabled: false
